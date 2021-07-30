@@ -4,20 +4,6 @@ const bcrypt = require("bcrypt");
 
 //Define a schema
 var userSchema = new mongoose.Schema({
-    firstName: {
-        type: String,
-        required: true,
-        trim: true,
-        min: 3,
-        max: 20,
-      },
-      lastName: {
-        type: String,
-        required: true,
-        trim: true,
-        min: 3,
-        max: 20
-      },
       username: {
         type: String,
         required: true,
@@ -31,22 +17,22 @@ var userSchema = new mongoose.Schema({
         unique: true,
         lowercase: true,
       },
-      hash_password: {
+      password: {
         type: String,
         required: true,
+      },
+      
+      avatar: {
+        type: String,
       },
       role: {
         type: String,
         enum: ["user", "admin"],
         default: "user",
-      },
+      }
   },
   { timestamps: true }
   );
-  
-  userSchema.virtual("fullName").get(function () {
-    return `${this.firstName} ${this.lastName}`;
-  });
   
   userSchema.methods = {
     authenticate: async function (password) {

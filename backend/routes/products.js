@@ -13,10 +13,16 @@ router.get('/', async (req, res, next) => {
 });
 
 //GET PRODUCT BY ID
-router.get('/:id', getProduct, (req, res) => {
+router.get('/:id', getProductById, (req, res) => {
   res.json(res.product)
 })
 
+//GET PRODUCTS BY CATEGORY
+router.get('/category/:category', getProductsByCategory, (req, res) => {
+  res.json(res.products)
+})
+
+//ONLY FOR ADMIN
 //CREATE NEW PRODUCT
 product = new Product()
 router.post('/new',async (req, res, next) => {
@@ -52,7 +58,7 @@ router.patch('/:id', async (req, res) => {
 })
 
 //DELETE PRODUCT BY ID
-router.delete('/:id', getProduct, async (req, res) => {
+router.delete('/:id', getProductById, async (req, res) => {
   try {
     await res.product.remove()
     res.json({ message: 'Deleted product' })
@@ -63,7 +69,7 @@ router.delete('/:id', getProduct, async (req, res) => {
 //
 
 
-async function getProduct(req, res, next) {
+async function getProductById(req, res, next) {
   let product
   try {
     product = await Product.findById(req.params.id)
@@ -75,6 +81,20 @@ async function getProduct(req, res, next) {
   }
 
   res.product = product
+  next()
+}
+async function getProductsByCategory(req, res, next) {
+  let products = [];
+  try {
+    products = await Product.find( { category: req.params.category })
+    if (products == []) {
+      return res.status(404).json({ message: 'Cannot find products with category '+req.params.category })
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message })
+  }
+
+  res.products = products
   next()
 }
 
