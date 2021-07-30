@@ -1,3 +1,4 @@
+var Product = require('../models/User.js')
 var express = require('express');
 var router = express.Router();
 
