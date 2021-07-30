@@ -1,12 +1,13 @@
-//Import the mongoose module
+require('dotenv').config();
 var mongoose = require('mongoose');
 
-//Set up default mongoose connection
-var mongoDB = 'mongodb://127.0.0.1/game_shop';
+var mongoDB = process.env.DATABASE_URL;
+
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
+
 //Get the default connection
 var db = mongoose.connection;
 db.on('connected', function() {
