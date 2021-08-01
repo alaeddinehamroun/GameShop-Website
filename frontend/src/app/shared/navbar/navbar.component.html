@@ -11,7 +11,7 @@
                 <span class="navbar-toggler-bar"></span>
             </button>
         </div>
-        <div class="navbar-collapse pb-md-0 pb-5" id="navbarToggler">
+        <div class="navbar-collapse pb-5 pb-lg-0" id="navbarToggler">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <button type="button" class="btn btn-outline-success btn-round">Home</button>
@@ -24,7 +24,8 @@
                 </li>
                 <li class="nav-item">
                     <div ngbDropdown class="d-inline-block dropdown">
-                        <button class="btn btn-outline-success btn-round" id="dropdownBasic1" ngbDropdownToggle>Categories</button>
+                        <button class="btn btn-outline-success btn-round" id="dropdownBasic1"
+                            ngbDropdownToggle>Categories</button>
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-primary">
                             <a class="dropdown-item">Consoles</a>
                             <a class="dropdown-item">Games</a>
@@ -34,27 +35,28 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <button type="button" class="btn btn-outline-success btn-round" ngbTooltip="click here to search for anything"
-                    placement="right"
-                    type="button">
+                    <button type="button" class="btn btn-outline-success btn-round"
+                        ngbTooltip="click here to search for anything" placement="bottom" type="button">
                         <i class="fa fa-search"></i></button>
                 </li>
-               
+                
+
             </ul>
-            <ul class="navbar-nav ml-auto ">
+            <ul class="navbar-nav ml-auto" *ngIf="removeLeftNav()">
                 <li class="nav-item ">
+                    <app-modal-component></app-modal-component>
                     <button class=" btn btn-danger btn-just-icon mr-2">
                         <i class=" fa fa-heart"> </i>
                     </button>
-                    <button class=" btn btn-primary btn-just-icon  mr-2">
-                        <i class=" fa fa-shopping-cart"> </i>
-                    </button>
-                    <button class=" btn btn-info btn-just-icon">
-                        <i class=" fa fa-user"> </i>
-                    </button>
+                    <a [routerLink]="['login']">
+                        <button class=" btn btn-info btn-just-icon">
+                            <i class=" fa fa-user"> </i>
+                        </button>
+                    </a>
+                    
                 </li>
             </ul>
         </div>
-        
+
     </div>
 </nav>

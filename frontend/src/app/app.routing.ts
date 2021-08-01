@@ -2,27 +2,23 @@ import { NgModule } from '@angular/core';
 import { CommonModule, } from '@angular/common';
 import { BrowserModule  } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
-import { ProfileComponent } from './examples/profile/profile.component';
-import { SignupComponent } from './examples/signup/signup.component';
-import { LandingComponent } from './examples/landing/landing.component';
-import { NucleoiconsComponent } from './components/nucleoicons/nucleoicons.component';
+import { SignupComponent } from './components/signup/signup.component';
 import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
 
 const routes: Routes =[
     { path: '',             component: HomeComponent },
-    // { path: 'user-profile',     component: ProfileComponent },
-    // { path: 'signup',           component: SignupComponent },
-    // { path: 'landing',          component: LandingComponent },
-    // { path: 'nucleoicons',      component: NucleoiconsComponent }
+    { path: 'register',     component: SignupComponent },
+    { path: 'login',     component: LoginComponent },
+    { path: 'products',     component: ProductListComponent },
 ];
 
 @NgModule({
   imports: [
     CommonModule,
     BrowserModule,
-    RouterModule.forRoot(routes,{
-      useHash: true
-    })
+    RouterModule.forRoot(routes)
   ],
   exports: [
   ],
