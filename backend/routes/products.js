@@ -5,7 +5,15 @@ var router = express.Router();
 //GET ALL PRODUCTS
 router.get('/', async (req, res, next) => {
   try{
+    //Logic for pagination server side --decided to paginate on client side
+    // const pageNumber = parseInt( (req.query.page !== undefined && req.query.page !==0) ?req.query.page :1 );
+    // //page size is set to 12 -- can be modified if needed
+    // const skip = (pageNumber - 1) * 12
+    // const products = await Product.find().sort({updatedAt: 'desc'}).skip(skip).limit(12);
+    // console.log(products.length)
+    // console.log(pageNumber)
     const products = await Product.find().sort({updatedAt: 'desc'});
+    console.log(products.length)
     res.send(products);
   } catch (err) {
     res.status(500).json({message : err.message})

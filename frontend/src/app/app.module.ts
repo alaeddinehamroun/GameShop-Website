@@ -13,7 +13,9 @@ import { HomeComponent } from './components/home/home.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { CartModalComponent } from './shared/cart/cart.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
-
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { HttpClientModule } from '@angular/common/http';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { ProductListComponent } from './components/product-list/product-list.com
     HomeComponent,
     SignupComponent,
     CartModalComponent,
-    ProductListComponent
+    ProductListComponent,
+    ProductDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +34,8 @@ import { ProductListComponent } from './components/product-list/product-list.com
     FormsModule,
     RouterModule,
     AppRoutingModule,
+    HttpClientModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]
