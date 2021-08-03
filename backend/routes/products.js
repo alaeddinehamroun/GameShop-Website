@@ -1,7 +1,7 @@
 var Product = require('../models/Product.js')
 var express = require('express');
 var router = express.Router();
-
+                                                  //TODO GET ONE IMAGE FOR GET ALL PRODUCTS
 //GET ALL PRODUCTS
 router.get('/', async (req, res, next) => {
   try{
@@ -32,7 +32,6 @@ router.get('/category/:category', getProductsByCategory, (req, res) => {
 
 //ONLY FOR ADMIN
 //CREATE NEW PRODUCT
-product = new Product()
 router.post('/new',async (req, res, next) => {
   const product = new Product ({
     title: req.body.title,

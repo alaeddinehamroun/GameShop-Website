@@ -1,4 +1,6 @@
 var User = require('../models/User.js')
+var Cart = require('../models/Cart.js')
+
 var express = require('express');
 var router = express.Router();
 const auth = require('../middleware/auth');
@@ -69,6 +71,17 @@ router.post('/register', [
     //save user in database
     await user.save();
 
+    //create cart
+    const cart = new Cart({
+      user: user,
+      cartItems: []
+    })
+    try {
+      const newCart = await cart.save();  
+    } catch(err) {
+      res.status(400).json({message : err.message});
+    }
+    
     //payload to generate token
     const payload = {
       user: {

@@ -15,9 +15,10 @@ module.exports = function (req, res, next) {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         // set user id in req.user
         req.user = decoded.user;
+        console.log(req.user.id+"middleware")
         next()
     } catch (error) {
-        req.status(401).json({
+        res.status(401).json({
             msg: 'Token is not valid'
         })
     }

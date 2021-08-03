@@ -4,17 +4,32 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require("cors");
+// //session
+// var session = require("express-session");
+// var MongoStore = require("connect-mongo")(session);
+
 //Mongodb
 var db = require('./config/database')
 
 var productsRouter = require('./routes/products');
 var authRouter = require('./routes/auth');
-
+var cartRouter = require('./routes/cart');
 var app = express();
 var corsOptions = {
   origin: "http://localhost:4200"
 };
-
+// //session
+// app.use(session({
+//   secret: 'anotherSecret',
+//   resave: false,
+//   saveUninitialized: false,
+//   store: MongoStore.create({mongooseConnection : db}),
+//   cookie: { maxAge: 180 * 60 * 1000 }
+// }));
+// app.use(function(req, res, next) {
+//   res.locals.session =req.session;
+//   next();
+// })
 app.use(cors(corsOptions));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,6 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/products', productsRouter);
 app.use('/api/user', authRouter);
+app.use('/api/cart', cartRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
