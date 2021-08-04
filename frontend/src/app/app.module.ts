@@ -17,6 +17,7 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     CartModalContent,
     CartModalComponent,
     ProductListComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    CartDetailsComponent
   ],
   imports: [
     BrowserModule,

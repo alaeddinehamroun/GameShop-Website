@@ -21,7 +21,7 @@ import { CartService } from 'app/services/cart.service';
             <table class=" table table-shopping" >
                 <tbody>
                     <tr *ngFor="let item of cartItems">
-                        <a class="btn-danger" (click)="deleteItemFronCart(item._id)"><i class="fa fa-close"></i></a>
+                        <a class="btn-danger" (click)="deleteItemFromCart(item._id)"><i class="fa fa-close"></i></a>
                         <td>
                             <div class=" img-container">
                             <img
@@ -82,7 +82,7 @@ export class CartModalContent implements OnInit {
     }
 
 
-    deleteItemFronCart(id: string) {
+    deleteItemFromCart(id: string) {
         console.log(id)
         this.cartService.DeleteItemFromCart(id).subscribe({
             next: response => {
@@ -97,6 +97,7 @@ export class CartModalContent implements OnInit {
             }, error: err =>
                 console.log(err)
         });
+        
     }
 }
 @Component({
@@ -109,7 +110,5 @@ export class CartModalComponent {
 
     open() {
         this.modalService.open(CartModalContent);
-
-
     }
 }

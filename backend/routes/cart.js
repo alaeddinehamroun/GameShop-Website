@@ -33,6 +33,7 @@ router.get('/getCartItems', auth, (req, res, next) => {
 router.post('/addToCart', auth, async (req, res, next) => {
     userId = req.user.id;
     console.log(userId)
+    
     try {
         let cart = await Cart.findOne( {user: userId} );
         console.log(cart)

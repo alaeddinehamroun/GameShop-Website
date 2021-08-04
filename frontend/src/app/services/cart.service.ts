@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 import { HttpHeaders } from '@angular/common/http';
 import { IProduct } from 'app/models/product.model';
@@ -17,9 +17,10 @@ const httpOptions = {
 })
 export class CartService {
 
-  private SERVER_URL = environment.SERVER_URL;
-  constructor(private http: HttpClient) { }
 
+ // private cartItems$ =new BehaviorSubject<IItem[]>([])
+  constructor(private http: HttpClient) { }
+ 
   AddItemToCart(id: string, qty: number): Observable<{ productId: string, qty: number }> {
     return this.http.post<{ productId: string, qty: number }>(this.SERVER_URL + '/cart/addToCart', { productId: id, qty: qty }, httpOptions)
   }
