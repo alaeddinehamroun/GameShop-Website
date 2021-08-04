@@ -14,7 +14,7 @@ router.get('/getCartItems', auth, (req, res, next) => {
             if (error) return res.status(400).json({ error });
             if (cart) {
                 let cartItems = {};
-                if (!cart.carItems)
+                if (cart.carItems == [])
                     return res.status(200).json({ message: "cart is empty" });
                 cart.cartItems.forEach((item, index) => {
                     cartItems[item.product._id.toString()] = {
@@ -31,25 +31,35 @@ router.get('/getCartItems', auth, (req, res, next) => {
 });
 //UPDATE/ADD ITEM TO CART
 router.post('/addToCart', auth, async (req, res, next) => {
-    userId = req.user._id;
+    userId = req.user.id;
+    console.log(userId)
     try {
-        let cart = await Cart.findOne({ userId });
-        if (error)
-            return res.status(400).json({ error });
+        let cart = await Cart.findOne( {user: userId} );
+        console.log(cart)
         if (cart) {
             // product id + qty
             const { productId, qty } = req.body;
-            let itemIndex = cart.carItems.findIndex(i => i._id == productId)
+            console.log(productId+"g"+qty)
+            console.log(cart.cartItems)
+            let itemIndex = cart.cartItems.findIndex(i => i.product == productId)
+            console.log(itemIndex)
+
             if (itemIndex > -1) {
                 //product exists in the cart, update the quantity
                 let itemToBeAdded = cart.cartItems[itemIndex];
-                itemToBeAdded.quantity = qty;
+                itemToBeAdded.quantity += qty;
                 cart.cartItems[itemIndex] = itemToBeAdded;
             } else {
                 //product does not exists in cart, add new item
                 //but first get all product object by id
-                productToBeAdded = Product.findById(productId)
-                cart.cartItems.push({ productToBeAdded, quantity });
+                product = await Product.findById(productId)
+                console.log("product to be added: "+product)
+                item= {
+                    product: product,
+                    quantity: qty
+                }
+                console.log(item)
+                cart.cartItems.push(item);
             }
             cart = await cart.save()
             return res.status(201).send(cart)
@@ -61,23 +71,26 @@ router.post('/addToCart', auth, async (req, res, next) => {
 });
 
 //DELETE CART ITEM
-router.get('/deleteItem', auth, (req, res, next) => {
-    const productId = req.body.payload;
-    if (productId) {
-        Cart.updateOne(
-            { user: req.user._id },
-            {
-                $pull: {
-                    cartItems: {
-                        product: productId,
-                    },
-                },
-            }).exec((error, result) => {
-                if (error) return res.status(400).json({ error });
-                if (result) {
-                    res.status(202).json({ result })
-                }
-            })
+router.post('/deleteItem', auth,async (req, res, next) => {
+    const productId = req.body.productId;
+    userId = req.user.id;
+    try {
+        let cart = await Cart.findOne( {user: userId} );
+        if (cart) {
+            console.log("cart before delete"+cart)
+            let itemIndex = cart.cartItems.findIndex(i => i.product == productId)
+            console.log(itemIndex)
+            if (itemIndex > -1) {
+                'slice'+cart.cartItems.splice(itemIndex,1)
+            } else {
+                return res.status(500).send('product does not exist in cart')
+            }
+            cart = await cart.save()
+            return res.status(202).send(cart)
+        }
+    } catch (err) {
+        console.log(err)
+        res.status(500).send("Something Went wrong")
     }
 })
 
