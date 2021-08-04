@@ -40,19 +40,19 @@
                             <tbody>
                                 <tr *ngFor="let item of cartItems">
                                     <td>
-                                        <div class=" img-container">
+                                        <div class="align-middle img-container">
                                             <img alt="..."
                                                 [src]="item.image"
                                                 style="height: 100px;width: 100px;" />
                                         </div>
                                     </td>
-                                    <td class="td-name">
+                                    <td class="align-middle td-name">
                                         <a>
                                             <h5>{{ item.title }}</h5>
                                         </a>
                                     </td>
-                                    <td class=" td-number"> {{item.price | currency:"USD"}} </td>
-                                    <td class=" td-number">
+                                    <td class="align-middle td-number"> {{item.price | currency:"USD"}} </td>
+                                    <td class="align-middle td-number">
                                         {{item.qty}}
                                         <div class=" btn-group">
                                             <button class=" btn btn-info btn-sm" (click)="decreaseQuantity(item._id)">
@@ -64,13 +64,22 @@
                                             </button>
                                         </div>
                                     </td>
-                                    <td class=" td-number"><small> € </small> 549</td>
-                                    <td class=" td-actions">
+                                    <td class="align-middle td-number">{{item.price*item.qty}}</td>
+                                    <td class="align-middle td-actions">
                                         <button class=" btn btn-round btn-icon btn-neutral" ngbTooltip="Remove item"
-                                            placement="left" type="button" (click)="deleteItemFronCart(item._id)">
+                                            placement="left" type="button" (click)="deleteItemFromCart(item._id)">
                                             <i class=" nc-icon nc-simple-remove"> </i>
                                         </button>
                                     </td>
+                                </tr>
+                                <tr class="border-0">
+                                    <td style="border: none;"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><h5>TOTAL</h5></td>
+                                    <td><h5>{{cartTotal | currency:'USD'}}</h5></td>
+                        
                                 </tr>
                             </tbody>
                         </table>

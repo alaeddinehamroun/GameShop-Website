@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IItem } from 'app/models/item.model';
 import { CartService } from 'app/services/cart.service';
+import { Location } from '@angular/common';
+
 @Component({
     selector: 'cart-model-content',
     template: `
@@ -51,11 +53,11 @@ import { CartService } from 'app/services/cart.service';
     </div>
     <div class="modal-footer">
         <div class="left-side">
-            <a type="button" class="btn btn-default btn-link" routerLink="/checkout">Checkout</a>
+            <a type="button" class="btn btn-default btn-link" (click)="activeModal.dismiss('Cross click')" routerLink="/checkout">Checkout</a>
         </div>
         <div class="divider"></div>
         <div class="right-side">
-            <a type="button" class="btn btn-danger btn-link" routerLink="/checkout">View Cart</a>
+            <a type="button" class="btn btn-danger btn-link" (click)="activeModal.dismiss('Cross click')" routerLink="/cart">View Cart</a>
         </div>
     </div>
     </div>
@@ -65,7 +67,7 @@ export class CartModalContent implements OnInit {
     cartItems: IItem[]
     numberOfItems: number;
     total: number;
-    constructor(public activeModal: NgbActiveModal, private cartService: CartService) { }
+    constructor(public activeModal: NgbActiveModal, private cartService: CartService, public location: Location) { }
     ngOnInit(): void {
         this.cartService.GetCartItems().subscribe({
             next: response => {
@@ -97,6 +99,13 @@ export class CartModalContent implements OnInit {
             }, error: err =>
                 console.log(err)
         });
+        //fix the problem for now  //TODO: find a way to update cartlist view when cart is modified and user is on cartlist 
+        var titlee = this.location.prepareExternalUrl(this.location.path());
+        titlee = titlee.slice( 1 );
+        if(titlee === 'cart'){
+            console.log('truee')
+            location.reload();
+        }
         
     }
 }
