@@ -13,17 +13,17 @@ router.get('/getCartItems', auth, (req, res, next) => {
         .exec((error, cart) => {
             if (error) return res.status(400).json({ error });
             if (cart) {
-                let cartItems = {};
+                let cartItems = [];
                 if (cart.carItems == [])
                     return res.status(200).json({ message: "cart is empty" });
                 cart.cartItems.forEach((item, index) => {
-                    cartItems[item.product._id.toString()] = {
+                    cartItems.push ({
                         _id: item.product._id.toString(),
-                        name: item.product.name,
+                        title: item.product.title,
                         image: item.product.images[0].url,
                         price: item.product.price,
                         qty: item.quantity,
-                    };
+                    });
                 });
                 res.status(200).json(cartItems);
             }
@@ -51,7 +51,7 @@ router.post('/addToCart', auth, async (req, res, next) => {
                 cart.cartItems[itemIndex] = itemToBeAdded;
             } else {
                 //product does not exists in cart, add new item
-                //but first get all product object by id
+                //but first get product object by id
                 product = await Product.findById(productId)
                 console.log("product to be added: "+product)
                 item= {
@@ -81,7 +81,7 @@ router.post('/deleteItem', auth,async (req, res, next) => {
             let itemIndex = cart.cartItems.findIndex(i => i.product == productId)
             console.log(itemIndex)
             if (itemIndex > -1) {
-                'slice'+cart.cartItems.splice(itemIndex,1)
+                cart.cartItems.splice(itemIndex,1)
             } else {
                 return res.status(500).send('product does not exist in cart')
             }
