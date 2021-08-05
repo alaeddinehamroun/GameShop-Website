@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { IProduct } from 'app/models/product.model';
 import { ProductService } from 'app/services/product.service';
 import { CartService } from 'app/services/cart.service';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   selector: 'app-product-list',
@@ -14,7 +15,8 @@ export class ProductListComponent implements OnInit {
   pageNumber: number =1;
   constructor(private router: Router,
               private productService: ProductService,
-              private cartService: CartService) { }
+              private cartService: CartService,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
     this.productService.getAllProducts().subscribe({ next: response => {

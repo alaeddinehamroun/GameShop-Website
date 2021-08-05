@@ -4,29 +4,25 @@ import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 import { HttpHeaders } from '@angular/common/http';
 import { IItem } from 'app/models/item.model';
+import { AuthService } from './auth.service';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    //token hardcoded for now
-    'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjEwOTcyNTA2YWU4MDk2OWVjZjFkMTNlIn0sImlhdCI6MTYyODA4MzA1NiwiZXhwIjoxNjI4NDQzMDU2fQ.X_PtRykPKzQGCPOfMOC0mEEX1u0MY4aLOA3gQhZTY6Y'
-  })
-};
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
   private SERVER_URL = environment.SERVER_URL;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private authService: AuthService) { }
 
   AddItemToCart(id: string, qty: number): Observable<{ productId: string, qty: number }> {
-    return this.http.post<{ productId: string, qty: number }>(this.SERVER_URL + '/cart/addToCart', { productId: id, qty: qty }, httpOptions)
+    return this.http.post<{ productId: string, qty: number }>(this.SERVER_URL + '/cart/addToCart', { productId: id, qty: qty })
   }
   GetCartItems() {
-    return this.http.get<IItem[]>(this.SERVER_URL + '/cart/getCartItems', httpOptions)
+    return this.http.get<IItem[]>(this.SERVER_URL + '/cart/getCartItems')
   }
   DeleteItemFromCart(id: string): Observable<any> {
-    return this.http.post(this.SERVER_URL + '/cart/deleteItem', { productId: id }, httpOptions)
+    return this.http.post(this.SERVER_URL + '/cart/deleteItem', { productId: id })
   }
 
 }

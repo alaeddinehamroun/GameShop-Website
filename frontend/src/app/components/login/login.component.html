@@ -6,29 +6,57 @@
         <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
           <div class="card card-register">
             <h3 class="title">Login</h3>
-            <form class="register-form">
+            <form class="register-form" name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate
+              *ngIf="this.authService.isLoggedOut()">
               <label>Email</label>
-              <div class="input-group form-group-no-border" [ngClass]="{'input-group-focus':focus===true}">
+              <div class="input-group form-group form-group-no-border" [ngClass]="{'input-group-focus':focus===true}">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="nc-icon nc-email-85"></i>
                   </span>
                 </div>
 
-                <input type="text" class="form-control" placeholder="Email" (focus)="focus=true" (blur)="focus=false">
+                <input name="email" type="email" class="form-control" placeholder="Email" (focus)="focus=true"
+                  (blur)="focus=false" [(ngModel)]="form.email" required #email="ngModel" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
               </div>
+              <div class="alert alert-danger" role="alert" *ngIf="email.errors && f.submitted">
+                <div *ngIf="email.errors.required">
+                  email is required 
+                </div>
+                <div *ngIf="email.errors.pattern">
+                  Email must be a valid email address
+                </div>
 
+              </div>
               <label>Password</label>
-              <div class="input-group form-group-no-border" [ngClass]="{'input-group-focus':focus1===true}">
+              <div class="input-group form-group form-group-no-border" [ngClass]="{'input-group-focus':focus1===true}">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="nc-icon nc-key-25"></i>
                   </span>
                 </div>
-                <input type="text" class="form-control" placeholder="Password" (focus)="focus1=true"
-                  (blur)="focus1=false">
+                <input name="password" type="password" class="form-control" placeholder="Password" (focus)="focus1=true"
+                  [(ngModel)]="form.password" required minlength="6" #password="ngModel" (blur)="focus1=false"
+                  autocomplete="off">
+
               </div>
-              <button class="btn btn-danger btn-block btn-round">Login</button>
+              <div class="alert alert-danger" role="alert" *ngIf="password.errors && f.submitted">
+                <div *ngIf="password.errors.required">Password is required</div>
+                <div *ngIf="password.errors.minlength">
+                  Password must be at least 6 characters
+                </div>
+              </div>
+              <div *ngIf="this.invalidCredentials">
+                invalid credentials
+              </div>
+              <div class="form-group">
+                <button class="btn btn-danger btn-block btn-round">Login</button>
+              </div>
+              <div class="form-group">
+                <div class="alert alert-danger" role="alert" *ngIf="f.submitted && isLoginFailed">
+                  Login failed: {{ errorMessage }}
+                </div>
+              </div>
             </form>
             <div class="forgot">
               <a href="#" class="btn btn-link btn-danger">Forgot password?</a>

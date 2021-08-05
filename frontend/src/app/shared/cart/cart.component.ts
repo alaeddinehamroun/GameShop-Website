@@ -3,6 +3,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IItem } from 'app/models/item.model';
 import { CartService } from 'app/services/cart.service';
 import { Location } from '@angular/common';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
     selector: 'cart-model-content',
@@ -65,22 +66,24 @@ import { Location } from '@angular/common';
 })
 export class CartModalContent implements OnInit {
     cartItems: IItem[]
-    numberOfItems: number;
-    total: number;
-    constructor(public activeModal: NgbActiveModal, private cartService: CartService, public location: Location) { }
+    numberOfItems: number = 0;
+    total: number = 0;
+    constructor(public activeModal: NgbActiveModal, private cartService: CartService, public location: Location,private authService: AuthService) { }
     ngOnInit(): void {
-        this.cartService.GetCartItems().subscribe({
-            next: response => {
-                this.cartItems = response
-                console.log(this.cartItems)
-                this.numberOfItems = this.cartItems.length
-                this.total = 0 ;
-                this.cartItems.forEach(item => {
-                    this.total += item.price * item.qty
-                });
-            }, error: err =>
-                console.log(err)
-        });
+        if(this.authService.isLoggedIn){
+            this.cartService.GetCartItems().subscribe({
+                next: response => {
+                    this.cartItems = response
+                    console.log(this.cartItems)
+                    this.numberOfItems = this.cartItems.length
+                    this.total = 0 ;
+                    this.cartItems.forEach(item => {
+                        this.total += item.price * item.qty
+                    });
+                }, error: err =>
+                    console.log(err)
+            });
+        }
     }
 
 

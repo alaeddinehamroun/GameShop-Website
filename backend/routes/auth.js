@@ -95,7 +95,7 @@ router.post('/register', [
       expiresIn: 360000 //to change for prod:3600
     }, (err, token) => {
       if (err) throw err;
-      res.json({ token });
+      res.status(200).json({"token": token, expiresIn: 360000 });
     }
     );
   } catch (err) {
@@ -157,7 +157,7 @@ router.post('/login', [
     }, (err, token) => {
       if (err) throw err;
       res.json({
-        token
+       token: token,expiresIn: 360000
       })
     }
     )

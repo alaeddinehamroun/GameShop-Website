@@ -36,10 +36,10 @@
                 </li>
                 <li class="nav-item">
                     <button type="button" class="btn btn-outline-success btn-round"
-                        ngbTooltip="click here to search for anything" placement="bottom" type="button">
+                        ngbTooltip="click here to see all products" placement="bottom" type="button" [routerLink]="['products']">
                         <i class="fa fa-search"></i></button>
                 </li>
-                
+
 
             </ul>
             <ul class="navbar-nav ml-auto" *ngIf="removeLeftNav()">
@@ -48,15 +48,19 @@
                     <button class=" btn btn-danger btn-just-icon mr-2">
                         <i class=" fa fa-heart"> </i>
                     </button>
-                    <a [routerLink]="['login']">
+
+                    <a [routerLink]="['login']" *ngIf="this.authService.isLoggedOut()">
                         <button class=" btn btn-info btn-just-icon">
-                            <i class=" fa fa-user"> </i>
+                            <i class="fa fa-user"> </i>
                         </button>
                     </a>
-                    
+                    <a [routerLink]="['']" *ngIf="this.authService.isLoggedIn()">
+                        <button class=" btn btn-info btn-just-icon" (click)="this.authService.logout()">
+                            <i class="fa fa-sign-out"> </i>
+                        </button>
+                    </a>
                 </li>
             </ul>
         </div>
-
     </div>
 </nav>

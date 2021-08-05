@@ -33,7 +33,7 @@
                                     <h6>{{product.subtitle}}</h6>
                                     <h5>{{product.price | currency: 'USD'}}</h5>
                                     <a class=" btn btn-primary"
-                                       [class.disabled]="!product.isInStock"
+                                       [class.disabled]="!product.isInStock || this.authService.isLoggedOut()"
                                        (click)="AddToCart(product._id)">
                                        {{ product.isInStock ? "Add To Cart" : "No Stock"}}
                                     </a>
