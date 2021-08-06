@@ -1,0 +1,52 @@
+<div class="wrapper" style="background-color: rgb(231, 103, 103);">
+    <div class="content-center">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col">
+                </div>
+            </div>
+            <div class="row mt-5 mb-5">
+                <div class="col">
+                    <nav aria-label="breadcrumb" role="navigation">
+                        <ol class=" breadcrumb">
+                            <li class=" breadcrumb-item"><a href="#"> Home </a></li>
+                            <li class=" breadcrumb-item"><a href="#"> Categories </a></li>
+                            <li aria-current="page" class=" breadcrumb-item active">{{this.category}}</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col" *ngFor="let product of products | paginate: { itemsPerPage: 12, currentPage: pageNumber }">
+                            <div class="card" style="width: 15rem;">
+                                <img [src]="product.images[0].url" alt="{{product.title}}" class="card-img-top" (click)="selectProduct(product._id)" 
+                                style="width: 240px;height: 320px;cursor:pointer;"/>
+
+                                <div class=" card-body">
+                                    <h4 class=" card-title">{{product.title  | titlecase}}</h4>
+                                    <h6>{{product.subtitle}}</h6>
+                                    <h5>{{product.price | currency: 'USD'}}</h5>
+                                    <a class=" btn btn-primary"
+                                       [class.disabled]="!product.isInStock || this.authService.isLoggedOut()"
+                                       (click)="AddToCart(product._id)">
+                                       {{ product.isInStock ? "Add To Cart" : "No Stock"}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center ">
+                <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
+            </div>
+        </div>
+
+    </div>
+</div>

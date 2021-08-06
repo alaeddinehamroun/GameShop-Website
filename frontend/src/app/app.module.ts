@@ -21,6 +21,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { LoginComponent } from './components/login/login.component';
+import { CategoryComponent } from './components/category/category.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { LoginComponent } from './components/login/login.component';
     ProductListComponent,
     ProductDetailsComponent,
     CartDetailsComponent,
+    CategoryComponent,
   ],
   imports: [
     BrowserModule,

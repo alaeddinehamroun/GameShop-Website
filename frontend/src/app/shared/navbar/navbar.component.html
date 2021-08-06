@@ -27,10 +27,10 @@
                         <button class="btn btn-outline-success btn-round" id="dropdownBasic1"
                             ngbDropdownToggle>Categories</button>
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-primary">
-                            <a class="dropdown-item">Consoles</a>
-                            <a class="dropdown-item">Games</a>
-                            <a class="dropdown-item">Cards</a>
-                            <a class="dropdown-item">Accessories</a>
+                            <a class="dropdown-item" [routerLink]="['/products/category/consoles']">Consoles</a>
+                            <a class="dropdown-item" [routerLink]="['/products/category/games']">Games</a>
+                            <a class="dropdown-item" [routerLink]="['/products/category/cards']">Cards</a>
+                            <a class="dropdown-item" [routerLink]="['/products/category/accessories']">Accessories</a>
                         </div>
                     </div>
                 </li>
