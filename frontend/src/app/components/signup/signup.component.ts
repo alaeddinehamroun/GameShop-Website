@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'app/services/auth.service';
@@ -13,7 +14,7 @@ export class SignupComponent implements OnInit {
         email: null,
         password: null
     }
-    error: boolean = false
+    error: string = null;
     constructor(
         private authService: AuthService,
         private router: Router) {
@@ -22,21 +23,23 @@ export class SignupComponent implements OnInit {
 
     ngOnInit() {
         if(this.authService.isLoggedIn())
-            console.log("loggedIn")
+            this.router.navigate([''])
      }
     register() {
-        this.error = false
+        this.error = null;
         const {username,email,password} = this.form;
         console.log(this.form)
         if (username && email && password) {
             this.authService.register(username,email, password)
                 .subscribe(
-                    () => {
+                    (response) => {
                         console.log("User is registered");
+                        console.log(response)
                         this.router.navigate([''])
-                    }, err => {   
-                        
-                                        this.error = true
+                    }, (error: HttpErrorResponse) => {
+                        if (error.error)
+                            this.error = error.error
+                        console.log(this.error)
                 }
                 );
         }

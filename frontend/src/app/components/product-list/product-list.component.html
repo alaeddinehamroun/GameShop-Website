@@ -13,21 +13,19 @@
                 <div class="col">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class=" breadcrumb">
-                            <li class=" breadcrumb-item"><a href="#"> Home </a></li>
-                            <li class=" breadcrumb-item"><a href="#"> Categories </a></li>
-                            <li aria-current="page" class=" breadcrumb-item active">All</li>
+                            <li class=" breadcrumb-item"><a  [routerLink]="['']"> Home </a></li>
+                            <li class=" breadcrumb-item"><a (click)="navigateTo('categories')" style="cursor: pointer;"> Categories </a></li>
+                            <li aria-current="page" class=" breadcrumb-item active">{{category}}</li>
                         </ol>
                     </nav>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <div class="row">
-                        <div class="col" *ngFor="let product of products | paginate: { itemsPerPage: 12, currentPage: pageNumber }">
-                            <div class="card" style="width: 15rem;">
-                                <img [src]="product.images[0].url" alt="{{product.title}}" class="card-img-top" (click)="selectProduct(product._id)" 
-                                style="width: 240px;height: 320px;cursor:pointer;"/>
-
+                    <div class="row row-cols-1 row-cols-md-4" *ngIf="this.products.length > 0">
+                        <div class="col mb-4" *ngFor="let product of products | paginate: { itemsPerPage: 12, currentPage: pageNumber }">
+                            <div class="card h-100">
+                                <img [src]="product.images[0].url" alt="{{product.title}}" class="card-img-top" (click)="selectProduct(product._id)" />
                                 <div class=" card-body">
                                     <h4 class=" card-title">{{product.title  | titlecase}}</h4>
                                     <h6>{{product.subtitle}}</h6>
@@ -40,6 +38,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row" *ngIf="this.products.length == 0">
+                        <h5>No Product Found</h5>
                     </div>
                 </div>
             </div>

@@ -11,20 +11,7 @@ const gravatar = require('gravatar'); // get user image by email
 
 
 //REGISTER
-router.post('/register', [
-  //validations
-  check('username', 'username is required').not().isEmpty(),
-  check('email', 'please include a valid email').isEmail(),
-  check('password', 'please enter a password with 6 or more characters').isLength({
-    min: 6
-  })
-], async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      errors: errors.array()
-    })
-  }
+router.post('/register', async (req, res, next) => {
   const {
     username,
     email,
@@ -35,22 +22,10 @@ router.post('/register', [
     let userWithTheSameEmail = await User.findOne({ email })
     // if use exist
     if (userWithTheSameUsername) {
-      return res.status(400).json({
-        errors: [
-          {
-            usernameError: 'username is taken'
-          }
-        ]
-      })
+      return res.status(400).json('username is taken')
     }
     if (userWithTheSameEmail) {
-      return res.status(400).json({
-        errors: [
-          {
-            emailError: 'an account already exists with this email'
-          }
-        ]
-      })
+      return res.status(400).json('an account already exists with this email')
     }
     // if not
 

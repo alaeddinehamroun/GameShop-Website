@@ -21,11 +21,10 @@ export class AuthService {
             return throwError(err)
         }))
     }
+    
 
     register(username:string, email: string, passsword: string): Observable<any>{
-        return this.http.post<any>(this.SERVER_URL + '/user/register',{username: username,email: email, password: passsword}).pipe(tap(res => this.setSession(res)),shareReplay(),catchError((err)=> {
-            return throwError(err)
-        }))
+        return this.http.post<any>(this.SERVER_URL + '/user/register',{username: username,email: email, password: passsword}).pipe(tap(res => this.setSession(res)),shareReplay())
     }
 
     private setSession(authResult) {

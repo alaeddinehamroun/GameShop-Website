@@ -8,44 +8,29 @@ import { CartService } from 'app/services/cart.service';
   templateUrl: './cart-details.component.html',
   styleUrls: ['./cart-details.component.css']
 })
-export class CartDetailsComponent implements OnInit, OnChanges {
+export class CartDetailsComponent implements OnInit {
   cartItems: IItem[];
-  cartTotal: number;
   constructor(private cartService: CartService, private authService: AuthService) { }
-  ngOnChanges(): void {
-    console.log("change")
-  }
-
   ngOnInit(): void {
     if (this.authService.isLoggedIn) {
-      this.cartService.GetCartItems().subscribe({
-        next: response => {
-          this.cartItems = response
-          this.cartTotal = 0
-          this.cartItems.forEach(item => {
-            this.cartTotal += item.price * item.qty
-          });
-        }, error: err =>
-          console.log(err)
-      }
-      );
+      this.cartService.cartItems$.subscribe(cartItems => this.cartItems = cartItems)
+
     }
   }
   deleteItemFromCart(id: string) {
-    console.log(id)
     this.cartService.DeleteItemFromCart(id).subscribe({
-      next: response => {
-        let itemIndex = this.cartItems.findIndex(i => i._id == id)
-        this.cartItems.splice(itemIndex, 1)
-        this.cartTotal = 0;
-        this.cartItems.forEach(item => {
-          this.cartTotal += item.price * item.qty
-        });
-        console.log(response.cartItems)
-      }, error: err =>
-        console.log(err)
+        next: response => {
+            let itemIndex = this.cartItems.findIndex(i => i._id == id)
+            //update total and number of items
+            this.cartService.numberOfItems -= 1
+            this.cartService.total -= this.cartItems[itemIndex].price * this.cartItems[itemIndex].qty
+            //delete item from component and service
+            this.cartItems.splice(itemIndex, 1)
+            this.cartService.SetCartItems(this.cartItems)
+        }, error: err =>
+            console.log(err)
     });
-  }
+}
   increaseQuantity(id: string) {
     console.log('increase')
     //get item index
@@ -54,12 +39,9 @@ export class CartDetailsComponent implements OnInit, OnChanges {
       next: response => {
         console.log(response)
         this.cartItems[itemIndex].qty++;
-        this.cartTotal = 0;
-        this.cartItems.forEach(item => {
-          this.cartTotal += item.price * item.qty
-        });
-      }
-    });
+        this.cartService.SetCartItems(this.cartItems)
+        this.cartService.total += this.cartItems[itemIndex].price
+    }});
   }
   decreaseQuantity(id: string) {
     console.log('decrease')
@@ -69,10 +51,8 @@ export class CartDetailsComponent implements OnInit, OnChanges {
       this.cartService.AddItemToCart(id, -1).subscribe({
         next: response => {
           this.cartItems[itemIndex].qty--;
-          this.cartTotal = 0;
-          this.cartItems.forEach(item => {
-            this.cartTotal += item.price * item.qty
-          });
+          this.cartService.SetCartItems(this.cartItems)
+          this.cartService.total -= this.cartItems[itemIndex].price
           console.log(response)
         }
       });

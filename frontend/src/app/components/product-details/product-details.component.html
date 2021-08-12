@@ -15,6 +15,9 @@
             </div>
             <div class="row mt-5">
                 <div class="col">
+                    <button class="btn btn-outline-secondary" style="width: 80px;" (click)='onBack()'>
+                        <i class="fa fa-chevron-left"></i>Back
+                    </button>
                 </div>
             </div>
             <div class="section">
@@ -23,9 +26,9 @@
                         <div class="col-md-7 col-sm-6">
                             <div class=" card page-carousel">
                                 <ngb-carousel class="carousel slide" tabindex="0" style="display: block;">
-                                    <ng-template ngbSlide  *ngFor="let image of product?.images">
+                                    <ng-template ngbSlide *ngFor="let image of product?.images">
                                         <div class="picsum-img-wrapper">
-                                            <img [src]="image.url"  alt="Random first slide">
+                                            <img [src]="image.url" alt="Random first slide">
                                         </div>
                                     </ng-template>
                                 </ngb-carousel>
@@ -40,14 +43,28 @@
                             <hr>
                             <p>{{product?.description}}</p>
                             <div class="row">
-                                <div class="col-md6 col-sm-6">
-                                    <label for="">Select quantity</label>
+
+
+                                <div class="col-md-6 col-sm-6">
+                                    <hr>
+                                    <p>Select quantity</p>
+
                                     <div class="form-group">
+                                        <div class="col-xs-2">
+                                            <span (click)="Decrease()" class="qty-down"> <i class="fa fa-minus">
+                                                </i></span>
+                                            <input class="form-control" #quantity max="100" readonly type="number"
+                                                value="1">
+                                            <span (click)="Increase()"><i class="fa fa-plus"> </i></span>
+                                        </div>
                                         <hr>
                                         <div class="row">
-                                            <div class="col-md-7 offset-md-5 col-sm-8">
-                                                <button class="btn btn-danger btn-block btn-round">Add to
-                                                    cart</button>
+                                            <div class="col">
+                                                <a class="btn btn-danger btn-block btn-round"
+                                                    [class.disabled]="!product?.isInStock || this.authService.isLoggedOut()"
+                                                    (click)="AddToCart(product._id)">
+                                                    {{ product?.isInStock ? "Add To Cart" : "No Stock"}}
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

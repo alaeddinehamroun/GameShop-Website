@@ -28,6 +28,7 @@
     "@angular/router": "11.0.4",
     "@ng-bootstrap/ng-bootstrap": "6.0.0",
     "bootstrap": "4.5.3",
+    "bootstrap-input-spinner": "^2.1.2",
     "core-js": "3.8.1",
     "holderjs": "^2.9.9",
     "jquery": "3.5.1",

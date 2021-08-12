@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         if(this.authService.isLoggedIn())
-            console.log("loggedIn")
+            this.router.navigate([''])
      }
     login() {
         this.invalidCredentials = false

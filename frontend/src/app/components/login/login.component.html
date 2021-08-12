@@ -6,8 +6,7 @@
         <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
           <div class="card card-register">
             <h3 class="title">Login</h3>
-            <form class="register-form" name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate
-              *ngIf="this.authService.isLoggedOut()">
+            <form class="register-form" name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
               <label>Email</label>
               <div class="input-group form-group form-group-no-border" [ngClass]="{'input-group-focus':focus===true}">
                 <div class="input-group-prepend">

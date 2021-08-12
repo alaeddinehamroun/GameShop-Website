@@ -14,29 +14,29 @@
         <div class="navbar-collapse pb-5 pb-lg-0" id="navbarToggler">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <button type="button" class="btn btn-outline-success btn-round">Home</button>
+                    <button type="button" class="btn btn-outline-success btn-round" [routerLink]="['']">Home</button>
                 </li>
                 <li class="nav-item">
-                    <button type="button" class="btn btn-outline-success btn-round">About</button>
+                    <button type="button" class="btn btn-outline-success btn-round" (click)="navigateTo('about')">About</button>
                 </li>
                 <li class="nav-item">
-                    <button type="button" class="btn btn-outline-success btn-round">Promotions</button>
+                    <button type="button" class="btn btn-outline-success btn-round" (click)="navigateTo('promotions')">Promotions</button>
                 </li>
                 <li class="nav-item">
                     <div ngbDropdown class="d-inline-block dropdown">
                         <button class="btn btn-outline-success btn-round" id="dropdownBasic1"
                             ngbDropdownToggle>Categories</button>
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-primary">
-                            <a class="dropdown-item" [routerLink]="['/products/category/consoles']">Consoles</a>
-                            <a class="dropdown-item" [routerLink]="['/products/category/games']">Games</a>
-                            <a class="dropdown-item" [routerLink]="['/products/category/cards']">Cards</a>
-                            <a class="dropdown-item" [routerLink]="['/products/category/accessories']">Accessories</a>
+                            <a class="dropdown-item" [routerLink]="['/products/consoles']">Consoles</a>
+                            <a class="dropdown-item" [routerLink]="['/products/games']">Games</a>
+                            <a class="dropdown-item" [routerLink]="['/products/cards']">Cards</a>
+                            <a class="dropdown-item" [routerLink]="['/products/accessories']">Accessories</a>
                         </div>
                     </div>
                 </li>
                 <li class="nav-item">
                     <button type="button" class="btn btn-outline-success btn-round"
-                        ngbTooltip="click here to see all products" placement="bottom" type="button" [routerLink]="['products']">
+                        ngbTooltip="click here to see all products" placement="bottom" type="button" [routerLink]="['products/all']">
                         <i class="fa fa-search"></i></button>
                 </li>
 
@@ -47,11 +47,15 @@
                     <app-modal-component></app-modal-component>
                     <button class=" btn btn-danger btn-just-icon mr-2">
                         <i class=" fa fa-heart"> </i>
+
                     </button>
+
 
                     <a [routerLink]="['login']" *ngIf="this.authService.isLoggedOut()">
                         <button class=" btn btn-info btn-just-icon">
-                            <i class="fa fa-user"> </i>
+                            <i class="fa fa-user"></i>
+                            
+
                         </button>
                     </a>
                     <a [routerLink]="['']" *ngIf="this.authService.isLoggedIn()">

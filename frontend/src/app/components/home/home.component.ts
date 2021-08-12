@@ -1,4 +1,5 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -10,10 +11,13 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 })
 
 export class HomeComponent implements OnInit {
- 
-    constructor( private renderer : Renderer2) {}
+    private fragment: string;
+
+    constructor(private activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
+        this.fragment = this.activatedRoute.snapshot.fragment;
+
     }
 
 }

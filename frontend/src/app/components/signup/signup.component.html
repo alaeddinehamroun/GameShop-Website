@@ -6,6 +6,9 @@
           <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
             <div class="card card-register">
               <h3 class="title">Welcome</h3>
+              <div class="alert alert-danger" role="alert" *ngIf="f.submitted && this.error">
+                  {{this.error}}
+              </div>
               <form class="register-form" name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
                 <label>Username</label>
                 <div class="input-group form-group form-group-no-border" [ngClass]="{'input-group-focus':focus===true}">

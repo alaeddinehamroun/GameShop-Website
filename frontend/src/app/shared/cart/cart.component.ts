@@ -5,6 +5,7 @@ import { CartService } from 'app/services/cart.service';
 import { Location } from '@angular/common';
 import { AuthService } from 'app/services/auth.service';
 
+
 @Component({
     selector: 'cart-model-content',
     template: `
@@ -14,16 +15,16 @@ import { AuthService } from 'app/services/auth.service';
         <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body" *ngIf="numberOfItems==0">
+    <div class="modal-body" *ngIf="this.cartService.numberOfItems==0">
         Your cart is empty
     </div>
-    <div *ngIf="numberOfItems>0">
+    <div *ngIf="this.cartService.numberOfItems>0">
     <div class="modal-body">
         <div class="table-responsive" style=" overflow:scroll-vertical;
         height:300px;">
             <table class=" table table-shopping" >
                 <tbody>
-                    <tr *ngFor="let item of cartItems">
+                    <tr *ngFor="let item of this.cartItems">
                         <a class="btn-danger" (click)="deleteItemFromCart(item._id)"><i class="fa fa-close"></i></a>
                         <td>
                             <div class=" img-container">
@@ -48,8 +49,8 @@ import { AuthService } from 'app/services/auth.service';
             </table>
         </div>    
         <div class="cart-summary mt-4">
-                <small>{{numberOfItems}} Item(s) selected</small>
-                <h5>TOTAL : {{total | currency:'USD'}}</h5>
+                <small>{{this.cartService.numberOfItems}} Item(s) selected</small>
+                <h5>TOTAL : {{this.cartService.total | currency:'USD'}}</h5>
         </div>
     </div>
     <div class="modal-footer">
@@ -65,62 +66,51 @@ import { AuthService } from 'app/services/auth.service';
     `
 })
 export class CartModalContent implements OnInit {
-    cartItems: IItem[]
-    numberOfItems: number = 0;
-    total: number = 0;
-    constructor(public activeModal: NgbActiveModal, private cartService: CartService, public location: Location,private authService: AuthService) { }
-    ngOnInit(): void {
-        if(this.authService.isLoggedIn){
-            this.cartService.GetCartItems().subscribe({
-                next: response => {
-                    this.cartItems = response
-                    console.log(this.cartItems)
-                    this.numberOfItems = this.cartItems.length
-                    this.total = 0 ;
-                    this.cartItems.forEach(item => {
-                        this.total += item.price * item.qty
-                    });
-                }, error: err =>
-                    console.log(err)
-            });
-        }
+    cartItems: IItem[] = []
+    constructor(public activeModal: NgbActiveModal, private cartService: CartService, public location: Location, private authService: AuthService) {
+
     }
-
-
+    ngOnInit(): void {
+        this.cartService.cartItems$.subscribe(cartItems => this.cartItems = cartItems)
+    }
     deleteItemFromCart(id: string) {
-        console.log(id)
         this.cartService.DeleteItemFromCart(id).subscribe({
             next: response => {
                 let itemIndex = this.cartItems.findIndex(i => i._id == id)
+                //update total and number of items
+                this.cartService.numberOfItems -= 1
+                this.cartService.total -= this.cartItems[itemIndex].price * this.cartItems[itemIndex].qty
+                //delete item from component and service
                 this.cartItems.splice(itemIndex, 1)
-                this.numberOfItems = this.cartItems.length
-                this.total = 0;
-                this.cartItems.forEach(item => {
-                    this.total += item.price * item.qty
-                });
-                console.log(response.cartItems)
+                this.cartService.SetCartItems(this.cartItems)
             }, error: err =>
                 console.log(err)
         });
-        //fix the problem for now  //TODO: find a way to update cartlist view when cart is modified and user is on cartlist 
-        var titlee = this.location.prepareExternalUrl(this.location.path());
-        titlee = titlee.slice( 1 );
-        if(titlee === 'cart'){
-            console.log('truee')
-            location.reload();
-        }
-        
     }
 }
 @Component({
     selector: 'app-modal-component',
     templateUrl: './cart.component.html'
 })
-export class CartModalComponent {
-
-    constructor(private modalService: NgbModal) { }
-
+export class CartModalComponent implements OnInit {
+    constructor(private modalService: NgbModal, private cartService: CartService, private authService: AuthService) { }
+    ngOnInit(): void {
+        console.log("init")
+        if (this.authService.isLoggedIn) {
+            this.cartService.FetchCartItems().subscribe({
+                next: response => {
+                    this.cartService.SetCartItems(response)
+                    this.cartService.numberOfItems = response.length
+                    response.forEach(item => {
+                        this.cartService.total += item.price * item.qty
+                    });
+                }, error: err =>
+                    console.log(err)
+            });
+        }
+    }
     open() {
         this.modalService.open(CartModalContent);
     }
+
 }

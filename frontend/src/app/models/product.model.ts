@@ -1,6 +1,6 @@
 export interface IProduct{
     isInStock: boolean;
-    id: string;
+    _id: string;
     title: string;
     subtitle: string;
     price: number;
