@@ -3,10 +3,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IProduct } from 'app/models/product.model';
 import { AuthService } from 'app/services/auth.service';
-import { CartService } from 'app/services/cart.service';
 import { ProductService } from 'app/services/product.service';
 import { map } from 'rxjs/operators';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
@@ -15,12 +14,13 @@ import {Location} from '@angular/common';
 export class ProductDetailsComponent implements OnInit {
   id: string;
   product: IProduct;
+  qty: number = 1;
+
   @ViewChild('quantity') quantityInput: any;
   constructor(private productservice: ProductService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private cartService: CartService,
-    private authService: AuthService,
+    private authService: AuthService, //used in template
     private _location: Location) { }
 
   ngOnInit(): void {
@@ -32,39 +32,25 @@ export class ProductDetailsComponent implements OnInit {
       this.id = prodId; (
         this.productservice.getProduct(this.id).subscribe)(prod => {
           this.product = prod;
-          console.log(this.product)
         },
           (error: HttpErrorResponse) => {
             if (error.status == 404)
               this.router.navigate(['**'])
           })
     })
-
   }
+
   onBack(): void {
     this._location.back()
   }
-  AddToCart(id: string) {
-    const qty = Number(this.quantityInput.nativeElement.value)
-    this.cartService.AddItemToCart(id, qty).subscribe({
-      next: response => {
-        this.cartService.FetchCartItems().subscribe({
-          next: response => {
-            this.cartService.SetCartItems(response)
-            this.cartService.numberOfItems = response.length
-            this.cartService.total += this.product.price * qty
-          }, error: err =>
-            console.log(err)
-        });
-      }
-    });
-  }
+
   Increase() {
-    this.quantityInput.nativeElement.value++;
+    this.qty = Number(++this.quantityInput.nativeElement.value);
+    console.log(this.qty)
   }
 
   Decrease() {
     if (this.quantityInput.nativeElement.value > 1)
-      this.quantityInput.nativeElement.value--;
+      this.qty = Number(--this.quantityInput.nativeElement.value);
   }
 }

@@ -26,7 +26,6 @@ export class CartService {
     this.cartItems.next(cartItems)
   }
   AddItemToCart(id: string, qty: number): Observable<{ productId: string, qty: number }> {
-
     return this.http.post<{ productId: string, qty: number }>(this.SERVER_URL + '/cart/addToCart', { productId: id, qty: qty })
   }
 

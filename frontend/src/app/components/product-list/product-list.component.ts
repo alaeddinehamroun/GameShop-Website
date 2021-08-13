@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IProduct } from 'app/models/product.model';
 import { ProductService } from 'app/services/product.service';
-import { CartService } from 'app/services/cart.service';
 import { AuthService } from 'app/services/auth.service';
 import { map } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-list',
@@ -15,12 +15,11 @@ export class ProductListComponent implements OnInit {
   products: IProduct[] = [];
   pageNumber: number = 1;
   category: string;
-
   constructor(private router: Router,
     private productService: ProductService,
-    private cartService: CartService,
-    private authService: AuthService,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService, //it is actually used in template
+    private toast: ToastrService) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.pipe(
@@ -43,7 +42,6 @@ export class ProductListComponent implements OnInit {
         })
       }
       if (this.category === "all") {
-        console.log('all b')
         this.productService.getAllProducts().subscribe({
           next: response => {
             this.products = response;
@@ -53,30 +51,11 @@ export class ProductListComponent implements OnInit {
         });
       }
     })
-
   }
   //navigte to product details
   selectProduct(id: string) {
     this.router.navigate(['/product', id]).then();
   }
-
-  //add to cart
-  AddToCart(id: string) {
-    let productIndex = this.products.findIndex(product => product._id == id)
-    this.cartService.AddItemToCart(id, 1).subscribe({
-      next: response => {
-        this.cartService.FetchCartItems().subscribe({
-          next: response => {
-            this.cartService.SetCartItems(response)
-            this.cartService.numberOfItems = response.length
-            this.cartService.total += this.products[productIndex].price
-          }, error: err =>
-            console.log(err)
-        });
-      }
-    });
-  }
-
   navigateTo(anchor: string) {
     this.router.navigate([''], { fragment: anchor });
   }

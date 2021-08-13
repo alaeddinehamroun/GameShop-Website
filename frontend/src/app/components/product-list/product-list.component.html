@@ -1,4 +1,4 @@
-<div class="wrapper" style="background-color: rgb(231, 103, 103);">
+<div class="wrapper">
     <div class="content-center">
         <div class="container">
             <div class="row">
@@ -30,11 +30,8 @@
                                     <h4 class=" card-title">{{product.title  | titlecase}}</h4>
                                     <h6>{{product.subtitle}}</h6>
                                     <h5>{{product.price | currency: 'USD'}}</h5>
-                                    <a class=" btn btn-primary"
-                                       [class.disabled]="!product.isInStock || this.authService.isLoggedOut()"
-                                       (click)="AddToCart(product._id)">
-                                       {{ product.isInStock ? "Add To Cart" : "No Stock"}}
-                                    </a>
+                                    <app-add-to-cart [disabled]="!product.isInStock || this.authService.isLoggedOut()" [productId] = "product._id" [productPrice] = "product.price" [isInStock] = "product.isInStock" [qty] = "1"></app-add-to-cart>
+                                    <app-like [id] = "product._id" [title] = "product.title"></app-like>
                                 </div>
                             </div>
                         </div>

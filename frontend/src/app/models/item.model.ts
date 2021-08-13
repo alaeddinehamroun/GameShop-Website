@@ -6,3 +6,10 @@ export interface IItem {
     image: string,
     price: number,
 }
+
+
+export interface WishlistModel {
+    id: string,
+    title: string
+
+  }

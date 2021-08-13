@@ -1,3 +1,8 @@
 .wrapper{
-    background-color: #eee;
+    background-color: rgb(231, 103, 103);
+}
+.card-img-top {
+    width: 100%;
+    height: 50%;
+    object-fit: cover;
 }

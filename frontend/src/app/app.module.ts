@@ -25,6 +25,10 @@ import { AboutComponent } from './components/home/about/about.component';
 import { PromotionsComponent } from './components/home/promotions/promotions.component';
 import { WelcomeComponent } from './components/home/welcome/welcome.component';
 import { CategoriesComponent } from './components/home/categories/categories.component';
+import { wishlistModalComponent, WishlistModalContent } from './shared/wishlist/wishlist.component';
+import { ToastrModule } from 'ngx-toastr';
+import { LikeComponent } from './shared/like/like.component';
+import { AddToCartComponent } from './shared/add-to-cart/add-to-cart.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +40,8 @@ import { CategoriesComponent } from './components/home/categories/categories.com
     LoginComponent,
     CartModalContent,
     CartModalComponent,
+    WishlistModalContent,
+    wishlistModalComponent,
     ProductListComponent,
     ProductDetailsComponent,
     CartDetailsComponent,
@@ -44,6 +50,8 @@ import { CategoriesComponent } from './components/home/categories/categories.com
     PromotionsComponent,
     WelcomeComponent,
     CategoriesComponent,
+    LikeComponent,
+    AddToCartComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +62,9 @@ import { CategoriesComponent } from './components/home/categories/categories.com
     HttpClientModule,
     NgxPaginationModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot(),
+
 
 
   ],

@@ -3,12 +3,12 @@
     <div class="container-fluid">
         <div class="navbar-translate">
             <a class="navbar-brand" href="#">Game Shop</a>
-            <button class="navbar-toggler navbar-burger" type="button" data-toggle="collapse"
-                data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false"
-                aria-label="Toggle navigation" (click)="sidebarToggle()">
-                <span class="navbar-toggler-bar"></span>
-                <span class="navbar-toggler-bar"></span>
-                <span class="navbar-toggler-bar"></span>
+            <button aria-expanded="false"aria-label="Toggle navigation" class="navbar-toggler navbar-burger" type="button" data-toggle="collapse"
+                data-target="#navbarToggler"  
+                (click)="sidebarToggle()">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
             </button>
         </div>
         <div class="navbar-collapse pb-5 pb-lg-0" id="navbarToggler">
@@ -45,10 +45,7 @@
             <ul class="navbar-nav ml-auto" *ngIf="removeLeftNav()">
                 <li class="nav-item ">
                     <app-modal-component></app-modal-component>
-                    <button class=" btn btn-danger btn-just-icon mr-2">
-                        <i class=" fa fa-heart"> </i>
-
-                    </button>
+                    <wishlist-modal-component></wishlist-modal-component>
 
 
                     <a [routerLink]="['login']" *ngIf="this.authService.isLoggedOut()">

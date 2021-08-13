@@ -71,7 +71,8 @@ export class CartModalContent implements OnInit {
 
     }
     ngOnInit(): void {
-        this.cartService.cartItems$.subscribe(cartItems => this.cartItems = cartItems)
+        if (this.authService.isLoggedIn())
+            this.cartService.cartItems$.subscribe(cartItems => this.cartItems = cartItems)
     }
     deleteItemFromCart(id: string) {
         this.cartService.DeleteItemFromCart(id).subscribe({
@@ -95,8 +96,7 @@ export class CartModalContent implements OnInit {
 export class CartModalComponent implements OnInit {
     constructor(private modalService: NgbModal, private cartService: CartService, private authService: AuthService) { }
     ngOnInit(): void {
-        console.log("init")
-        if (this.authService.isLoggedIn) {
+        if (this.authService.isLoggedIn()) {
             this.cartService.FetchCartItems().subscribe({
                 next: response => {
                     this.cartService.SetCartItems(response)

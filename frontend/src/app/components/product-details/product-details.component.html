@@ -15,7 +15,7 @@
             </div>
             <div class="row mt-5">
                 <div class="col">
-                    <button class="btn btn-outline-secondary" style="width: 80px;" (click)='onBack()'>
+                    <button class="btn btn-primary" (click)='onBack()'>
                         <i class="fa fa-chevron-left"></i>Back
                     </button>
                 </div>
@@ -36,6 +36,8 @@
                         </div>
                         <div class="col-md-5 col-sm-6">
                             <h2>{{product?.title}}</h2>
+                            <app-like [id]="product?._id" [title]="product?.title">
+                            </app-like>
                             <h3>{{product?.category}}</h3>
                             <h4>{{product?.subtitle}}</h4>
                             <h4 class="price">{{product?.price}}</h4>
@@ -43,7 +45,6 @@
                             <hr>
                             <p>{{product?.description}}</p>
                             <div class="row">
-
 
                                 <div class="col-md-6 col-sm-6">
                                     <hr>
@@ -60,11 +61,11 @@
                                         <hr>
                                         <div class="row">
                                             <div class="col">
-                                                <a class="btn btn-danger btn-block btn-round"
-                                                    [class.disabled]="!product?.isInStock || this.authService.isLoggedOut()"
-                                                    (click)="AddToCart(product._id)">
-                                                    {{ product?.isInStock ? "Add To Cart" : "No Stock"}}
-                                                </a>
+                                                <app-add-to-cart
+                                                    [disabled]="!product?.isInStock || this.authService.isLoggedOut()"
+                                                    [productId]="product?._id" [productPrice]="product?.price"
+                                                    [isInStock]="product?.isInStock" [qty]="qty">
+                                                </app-add-to-cart>
                                             </div>
                                         </div>
                                     </div>
