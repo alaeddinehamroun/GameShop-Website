@@ -11,7 +11,6 @@ import * as moment from "moment";
     providedIn: 'root'
   })
 
-
 export class AuthService {
     private SERVER_URL = environment.SERVER_URL;
     constructor(private http: HttpClient){}

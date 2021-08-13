@@ -1,4 +1,5 @@
-<button class=" btn btn-primary btn-just-icon mr-2" (click)="open()">
-    <i class=" fa fa-heart"> </i><span class=" badge badge-pill badge-danger mr-1"> {{this.numberOfWishes}}</span>
+<button class=" btn btn-primary btn-just-icon mr-2" (click)="open()" ngbTooltip="Your wishlist"
+placement="bottom">
+    <i class=" fa fa-heart"> </i><span class=" badge badge-pill badge-danger mr-1"> {{this.numberOfWishes}} </span>
 </button>
 

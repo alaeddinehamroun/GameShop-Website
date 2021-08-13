@@ -18,7 +18,7 @@ export class CartService {
 
   private SERVER_URL = environment.SERVER_URL;
   constructor(private http: HttpClient,
-    private authService: AuthService) { }
+              private authService: AuthService) { }
   FetchCartItems() {
     return this.http.get<IItem[]>(this.SERVER_URL + '/cart/getCartItems')
   }

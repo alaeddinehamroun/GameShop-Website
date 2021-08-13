@@ -1,4 +1,4 @@
-<button class=" btn btn-primary btn-just-icon mr-2" (click)="open()">
-    <i class=" fa fa-shopping-cart"> </i><span class=" badge badge-pill badge-danger mr-1" *ngIf = "this.authService.isLoggedIn()">{{this.cartService.numberOfItems}}</span>
+<button class=" btn btn-primary btn-just-icon mr-2" (click)="open()" ngbTooltip="Your cart" placement="left">
+    <i class=" fa fa-shopping-cart"> </i><span class=" badge badge-pill badge-danger mr-1"
+        *ngIf="this.authService.isLoggedIn()">{{this.cartService.numberOfItems}}</span>
 </button>
-

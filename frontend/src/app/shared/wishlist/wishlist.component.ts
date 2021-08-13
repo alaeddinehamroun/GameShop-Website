@@ -14,12 +14,12 @@ import { WishlistService } from 'app/services/wishlist.service';
         <span aria-hidden="true">&times;</span>
         </button>
     </div>
-
     <div>
     <div class="modal-body">
         <div class="table-responsive" style=" overflow:scroll-vertical;
         height:300px;">
-            <table class=" table table-shopping" >
+            <h5 *ngIf = "wishlist.length === 0">Your Wishlist is empty</h5>
+            <table class=" table table-shopping" *ngIf = "wishlist.length !== 0">
                 <tbody>
                     <tr *ngFor="let wish of this.wishlist">                        
                         <td class="td-name">
@@ -41,7 +41,7 @@ import { WishlistService } from 'app/services/wishlist.service';
     `
 })
 export class WishlistModalContent implements OnInit {
-    wishlist: WishlistModel[]
+    wishlist: WishlistModel[] = []
     constructor(public activeModal: NgbActiveModal,
         public location: Location,
         private wishlistService: WishlistService) { }

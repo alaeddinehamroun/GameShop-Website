@@ -145,6 +145,7 @@ router.post('/login', [
 })
 
 //GET USER INFOS
+
 router.get('/', auth, async (req, res) => {
   try {
     //get user infos by id

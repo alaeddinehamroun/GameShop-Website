@@ -1,1 +1,6 @@
-<i class="fa fa-heart" [style.color]="this.wishlistService.userHasLiked(this.id) ? 'red' : 'blue'" (click) = "onClick(this.id,this.title)"></i>
+<i class="fa fa-heart" 
+   style="cursor: pointer;" 
+   [style.color]="this.wishlistService.userHasLiked(this.id) ? 'red' : '#E0E0E0'" 
+   [ngbTooltip]="this.wishlistService.userHasLiked(this.id) ? 'remove from wishlist' : 'add to wishlist'"
+   placement="bottom" 
+   (click) = "onClick(this.id,this.title)"></i>

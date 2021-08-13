@@ -13,8 +13,9 @@
                 <div class="col">
                     <nav aria-label="breadcrumb" role="navigation">
                         <ol class=" breadcrumb">
-                            <li class=" breadcrumb-item"><a  [routerLink]="['']"> Home </a></li>
-                            <li class=" breadcrumb-item"><a (click)="navigateTo('categories')" style="cursor: pointer;"> Categories </a></li>
+                            <li class=" breadcrumb-item"><a [routerLink]="['']"> Home </a></li>
+                            <li class=" breadcrumb-item"><a (click)="navigateTo('categories')" style="cursor: pointer;">
+                                    Categories </a></li>
                             <li aria-current="page" class=" breadcrumb-item active">{{category}}</li>
                         </ol>
                     </nav>
@@ -23,15 +24,21 @@
             <div class="row">
                 <div class="col">
                     <div class="row row-cols-1 row-cols-md-4" *ngIf="this.products.length > 0">
-                        <div class="col mb-4" *ngFor="let product of products | paginate: { itemsPerPage: 12, currentPage: pageNumber }">
+                        <div class="col mb-4"
+                            *ngFor="let product of products | paginate: { itemsPerPage: 12, currentPage: pageNumber }">
                             <div class="card h-100">
-                                <img [src]="product.images[0].url" alt="{{product.title}}" class="card-img-top" (click)="selectProduct(product._id)" />
+                                <img [src]="product.images[0].url" alt="{{product.title}}" class="card-img-top"
+                                    (click)="selectProduct(product._id)" />
                                 <div class=" card-body">
-                                    <h4 class=" card-title">{{product.title  | titlecase}}</h4>
+                                    <h4 class=" card-title">{{product.title | titlecase}}
+                                        <app-like [id]="product._id"
+                                            [title]="product.title"></app-like>
+                                    </h4>
                                     <h6>{{product.subtitle}}</h6>
                                     <h5>{{product.price | currency: 'USD'}}</h5>
-                                    <app-add-to-cart [disabled]="!product.isInStock || this.authService.isLoggedOut()" [productId] = "product._id" [productPrice] = "product.price" [isInStock] = "product.isInStock" [qty] = "1"></app-add-to-cart>
-                                    <app-like [id] = "product._id" [title] = "product.title"></app-like>
+                                    <app-add-to-cart [disabled]="!product.isInStock || this.authService.isLoggedOut()"
+                                        [productId]="product._id" [productPrice]="product.price"
+                                        [isInStock]="product.isInStock" [qty]="1"></app-add-to-cart>
                                 </div>
                             </div>
                         </div>
