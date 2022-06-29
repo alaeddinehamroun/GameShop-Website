@@ -1,9 +1,9 @@
 {
   "name": "gameshop",
-  "version": "1.4.0",
-  "license": "MIT",
+  "version": "2",
+  "license": "",
   "repository": {
-    "type": "git",
+    "type": "",
     "url": ""
   },
   "scripts": {
